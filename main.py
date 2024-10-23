@@ -1,6 +1,3 @@
-#guardar contraseñas encriptadas con el usuario y la cuenta
-#poder agregar contraseñas o pedirlas, utilizando una contraseña maestra
-#mantenerse entre sesiones
 import csv
 from cryptography.fernet import Fernet
 import ast
@@ -27,11 +24,15 @@ def list_passwords(key):
             decrypted_passwords.append(lines)
         decrypted_passwords.pop(0)
         fernet = Fernet(key)
-        print(key)
         
         for i in range(len(decrypted_passwords)):
             password = ast.literal_eval(decrypted_passwords[i][2])
             decrypted_passwords[i][2] = fernet.decrypt(password).decode()
         print(decrypted_passwords)
 
-list_passwords(key)
+
+choice = int(input('add password (0), list passwords (1): '))
+if choice:
+    list_passwords(key)
+else:
+    add_password(key)
